@@ -23,5 +23,5 @@ public class DemandeConge implements Serializable {
     private LocalDate dateFin;
     private String statut;
     @ManyToOne
-    private Employe employe;
+    private Utilisateur utilisateur;
 }

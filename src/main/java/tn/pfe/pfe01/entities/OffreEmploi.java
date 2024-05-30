@@ -23,6 +23,6 @@ public class OffreEmploi implements Serializable {
     private LocalDate datePublication;
     private LocalDate dateExpiration;
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Candidat> candidats;
+    private List<Utilisateur> utilisateurs;
 
 }

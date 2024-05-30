@@ -1,2 +1,7 @@
-package tn.pfe.pfe01.services;public interface IOffreEmploi {
+package tn.pfe.pfe01.services;
+
+import tn.pfe.pfe01.entities.OffreEmploi;
+import tn.pfe.pfe01.generic.IGenericService;
+
+public interface IOffreEmploiService extends IGenericService<OffreEmploi,Integer> {
 }
