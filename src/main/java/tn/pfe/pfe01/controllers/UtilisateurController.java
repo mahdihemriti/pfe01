@@ -1,6 +1,9 @@
-package tn.pfe.pfe01.Controllers;
+package tn.pfe.pfe01.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tn.pfe.pfe01.entities.OffreEmploi;
 import tn.pfe.pfe01.entities.Utilisateur;
@@ -17,7 +20,7 @@ public class UtilisateurController extends GenericController<Utilisateur,Integer
 
     @PostMapping("/{idCandidat}/offre/{idOffreEmploi}")
     public void assignerCandidatOffreEmploi(@PathVariable Integer idCandidat, @PathVariable Integer idOffreEmploi){
-        utilisateurService.assignerCandidatOffreEmploi(idCandidat,idOffreEmploi );
+        utilisateurService.assignerCandidatOffreEmploi(idCandidat,idOffreEmploi);
     }
 
     @DeleteMapping ("/{idCandidat}/offre/{idOffreEmploi}")
@@ -29,6 +32,15 @@ public class UtilisateurController extends GenericController<Utilisateur,Integer
     public List<OffreEmploi> afficherOffresCandidat(@PathVariable Integer idCandidat){
         return utilisateurService.afficherOffresCandidat(idCandidat);
     }
-    //test
+
+    @GetMapping("/me")
+    public ResponseEntity<Utilisateur> authenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Utilisateur currentUser = (Utilisateur) authentication.getPrincipal();
+
+        return ResponseEntity.ok(currentUser);
+    }
+
 
 }

@@ -1,8 +1,11 @@
-package tn.pfe.pfe01.services;
+package tn.pfe.pfe01.services.imp;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.pfe.pfe01.entities.OffreEmploi;
@@ -10,6 +13,8 @@ import tn.pfe.pfe01.entities.Utilisateur;
 import tn.pfe.pfe01.generic.IGenericServiceImp;
 import tn.pfe.pfe01.repositories.OffreEmploiRepository;
 import tn.pfe.pfe01.repositories.UtilisateurRepository;
+import tn.pfe.pfe01.services.IOffreEmploiService;
+import tn.pfe.pfe01.services.IUtilisateurService;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class IUtilisateurServiceImp extends IGenericServiceImp<Utilisateur,Integer> implements IUtilisateurService {
+    private final UtilisateurRepository utilisateurRepository;
     @Lazy
     private final IOffreEmploiService iOffreEmploiService;
 
@@ -58,6 +64,17 @@ public class IUtilisateurServiceImp extends IGenericServiceImp<Utilisateur,Integ
         Utilisateur candidat = this.retrieveById(idCandidat);
         return candidat!=null ? candidat.getOffreEmplois(): null;
 
+    }
+
+    @Override
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) {
+                return utilisateurRepository.findByEmail(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            }
+        };
     }
 
 }

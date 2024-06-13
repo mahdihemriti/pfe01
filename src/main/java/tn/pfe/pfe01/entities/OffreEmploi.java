@@ -1,5 +1,6 @@
 package tn.pfe.pfe01.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class OffreEmploi implements Serializable {
     private LocalDate datePublication;
     private LocalDate dateExpiration;
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Utilisateur> utilisateurs;
 
 }
